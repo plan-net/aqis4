@@ -6,3 +6,4 @@ export const SET_SAVING_INACTIVE = 'saving_inactive'
 
 // mutations
 export const SET_CLIENTS = 'setClients'
+export const TEST_REQUEST = 'test'

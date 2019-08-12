@@ -14,7 +14,7 @@ Vue.use(Core4ui, {
   router,
   config: {
     THEME,
-    TITLE: 'app---name',
+    TITLE: 'Aqis',
     IGNORED_ERRORS: [],
     APP_IDENTIFIER: 'core'
   },

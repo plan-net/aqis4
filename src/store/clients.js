@@ -1,8 +1,9 @@
 import {
   FETCH_CLIENTS,
-  SET_CLIENTS
-
+  SET_CLIENTS,
+  TEST_REQUEST
 } from '@/store/types'
+
 import { ClientsService } from '@/store/api/index.js'
 /* import { clone } from 'core4ui/core4/helper.js'
 import router from '@/router' */
@@ -39,6 +40,13 @@ const actions = {
     const clients = await ClientsService.getAll()
     context.commit(SET_CLIENTS, clients)
     return clients
+  },
+
+  async [TEST_REQUEST] (context, id) {
+    let name = id ? context.state.all.find(el => el._id === id).name : null
+
+    const greeting = await ClientsService.testRequest(name)
+    return greeting
   }
 }
 

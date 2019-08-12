@@ -4,6 +4,7 @@ module.exports = {
   lintOnSave: true,
   publicPath: './',
   devServer: {
+    // proxy: 'http://<another-origin-path>', // <- solving CORS issue
     port: 8081
   },
   configureWebpack: {

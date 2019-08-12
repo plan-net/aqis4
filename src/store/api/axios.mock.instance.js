@@ -1,5 +1,7 @@
 import axios from 'axios'
+
 const saAxios = axios.create({})
+
 saAxios.interceptors.response.use(
   response => {
     // unwrap
@@ -9,4 +11,5 @@ saAxios.interceptors.response.use(
     return Promise.reject(error.response.data)
   }
 )
+
 export default saAxios
