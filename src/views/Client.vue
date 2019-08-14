@@ -23,7 +23,7 @@ export default {
   mounted () {
     this.$store.dispatch(TEST_REQUEST, this.$props.id)
       .then(resp => {
-        this.greeting = resp.data
+        this.greeting = resp
       })
       .catch(err => {
         console.log(err)

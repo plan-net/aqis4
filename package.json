@@ -18,7 +18,8 @@
   },
   "dependencies": {
     "core4ui": "https://github.com/plan-net/core4ui.git#develop",
-    "axios-mock-adapter": "^1.16.0"
+    "axios-mock-adapter": "^1.16.0",
+    "vue-native-websocket": "2.0.12"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^3.8.0",

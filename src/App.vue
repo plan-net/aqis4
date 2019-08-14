@@ -10,14 +10,28 @@
 </template>
 <script>
 import SideNavigation from '@/components/SideNavigation'
+import { mapGetters } from 'vuex'
+import { getBasePath } from './helper'
 
 export default {
   name: 'Aqis',
   components: {
     SideNavigation
   },
-  computed: {},
+  computed: {
+    ...mapGetters(['authenticated'])
+  },
   mounted () {
+  },
+  watch: {
+    authenticated (newValue, oldValue) {
+      this.$disconnect()
+
+      if (newValue && newValue !== oldValue) {
+        let token = JSON.parse(localStorage.getItem('user'))['token']
+        this.$connect(`${getBasePath()}/websocket?token=${token}`)
+      }
+    }
   }
 }
 </script>

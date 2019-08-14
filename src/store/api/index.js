@@ -11,10 +11,6 @@ const ApiService = {
   }
 }
 
-const axiosInstance = axios.create({
-  headers: { Authorization: `Bearer ` + JSON.parse(window.localStorage.user).token }
-})
-
 export const ClientsService = {
   testRequest (name) {
     // It is possible to use https://cors-anywhere.herokuapp.com/ for solving CORS issues but it is not secure!
@@ -25,13 +21,13 @@ export const ClientsService = {
 
     const url = name ? `/test?name=${name}` : `/test`
 
-    return axiosInstance
+    return axios
       .get(url)
       .then(result => result.data)
       .catch(error => Promise.reject(error))
   },
   uniqueClientName (name, notId) {
-    // return axiosInstance
+    // return axios
     //   .get(url)
     //   .then(result => result.data)
     //   .catch(error => Promise.reject(error))
