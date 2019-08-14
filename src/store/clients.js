@@ -1,9 +1,17 @@
 import {
   FETCH_CLIENTS,
   SET_CLIENTS,
-  TEST_REQUEST
+  TEST_REQUEST,
+
+  SOCKET_ONOPEN,
+  SOCKET_ONCLOSE,
+  SOCKET_ONERROR,
+  SOCKET_ONMESSAGE,
+  SOCKET_RECONNECT,
+  SOCKET_RECONNECT_ERROR
 } from '@/store/types'
 
+import Vue from 'vue'
 import { ClientsService } from '@/store/api/index.js'
 /* import { clone } from 'core4ui/core4/helper.js'
 import router from '@/router' */
@@ -32,7 +40,12 @@ const state = {
       'timestamp': '2019-04-30T17:20:51.521000',
       'author': 'wic'
     }
-  ]
+  ],
+  socket: {
+    isConnected: false,
+    message: '',
+    reconnectError: false
+  }
 }
 
 const actions = {
@@ -53,7 +66,19 @@ const actions = {
 const mutations = {
   [SET_CLIENTS] (state, clients) {
     state.all = clients
-  }
+  },
+  [SOCKET_ONOPEN] (state, event) {
+    Vue.prototype.$socket = event.currentTarget
+    Vue.prototype.$socket.sendObj({ 'type': 'open' })
+
+    state.socket.isConnected = true
+    state.socket.reconnectError = false
+  },
+  [SOCKET_ONCLOSE] (state) {},
+  [SOCKET_ONERROR] (state, event) {},
+  [SOCKET_ONMESSAGE] (state, message) {},
+  [SOCKET_RECONNECT] (state, count) {},
+  [SOCKET_RECONNECT_ERROR] (state) {}
 }
 
 const getters = {
