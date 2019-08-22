@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import Overview from '@/views/Overview'
 import Client from '@/views/Client'
+import Dashboard from '@/views/Dashboard'
 
 Vue.use(Router)
 export const routes = [
@@ -10,7 +11,7 @@ export const routes = [
     name: 'overview',
     component: Overview,
     meta: {
-      auth: true,
+      // auth: true,
       hideNav: false,
       title: 'Overview'
     }
@@ -21,12 +22,21 @@ export const routes = [
     component: Client,
     props: true,
     meta: {
-      auth: true,
+      // auth: true,
       hideNav: false,
       title: 'Client'
     }
+  },
+  {
+    path: '/campaign',
+    name: 'campaign',
+    component: Dashboard,
+    meta: {
+      // auth: true,
+      hideNav: false,
+      title: 'Dashboard'
+    }
   }
-
 ]
 
 const router = new Router({
