@@ -143,28 +143,107 @@ const state = {
       ]
     }
   },
-  jobs: [
-    {
-      job_id: '5d5a8235c5d55a4c455e80ef1',
-      qual_name: 'aqis4.data.Loader',
-      state: 'running',
-      flags: null,
-      progress: 0.01,
-      args: {
-        compaignIds: [12341]
-      }
-    },
-    {
-      job_id: '5d5a8235c5d55a4c455e80ef2',
-      qual_name: 'aqis4.data.Loader',
-      state: 'running',
-      flags: null,
-      progress: 0.01,
-      args: {
-        compaignIds: [56891, 34671]
-      }
+  result: {
+    progress: 0.01,
+    sort: 1,
+    sort_by: 'campaign',
+    page: 0, // current page (starts counting with ``0``)
+    per_page: 5, // the number of elements per page
+    count: 5, // the number of records in current page
+    page_count: 4, // the total number of pages
+    total_count: 18, // the total number of records
+    resultList: {
+      header: [
+        {
+          text: 'Campaign',
+          sortable: true,
+          value: 'campaign'
+        },
+        {
+          text: 'Start',
+          sortable: true,
+          value: 'start'
+        },
+        {
+          text: 'End',
+          sortable: true,
+          value: 'end'
+        },
+        {
+          text: '#Impressions',
+          sortable: true,
+          value: 'impressions'
+        },
+        {
+          text: '#Panel list',
+          sortable: true,
+          value: 'panellist'
+        },
+        {
+          text: '#Est. Value',
+          sortable: true,
+          value: 'estvalue'
+        },
+        {
+          text: 'ZE',
+          // sortable: true, // is it possible to sort this column?
+          value: 'ziel'
+        }
+      ],
+      rows: [
+        {
+          id: '11e98647adb11e98647d663bd873d91',
+          campaign: 'camp1',
+          start: '2019-10-10',
+          end: '2019-11-11',
+          impressions: 10,
+          panellist: 101,
+          estvalue: 12,
+          ziel: null
+        },
+        {
+          id: '11e98647adb11e98647d663bd871542',
+          campaign: 'camp2',
+          start: '2018-12-01',
+          end: '2019-03-30',
+          impressions: 1,
+          panellist: 2,
+          estvalue: 4,
+          ziel: null
+        },
+        {
+          id: '11e98647adb11e98647d663bd873b53',
+          campaign: 'camp3',
+          start: '2019-05-05',
+          end: '2019-06-01',
+          impressions: 15,
+          panellist: 274,
+          estvalue: 456,
+          ziel: null
+        },
+        {
+          id: '11e98647adb11e98647d663bd873k74',
+          campaign: 'camp4',
+          start: '2019-06-06',
+          end: '2019-07-07',
+          impressions: 2,
+          panellist: 23,
+          estvalue: 76,
+          ziel: null
+        },
+        {
+          id: '11e98647adb11e98647d663bd873r35',
+          campaign: 'camp5',
+          start: '2019-08-08',
+          end: '2019-09-09',
+          impressions: 83,
+          panellist: 987,
+          estvalue: 6789,
+          ziel: null
+        }
+      ]
     }
-  ]
+  }
 }
 
 const getters = {
@@ -172,9 +251,12 @@ const getters = {
     return Object.values(state.clients)
   },
   campaigns: state => Object.values(state.campaigns),
-  targetGroupHeaders: state => Object.values(state.targetGroups.targetGroupList.header),
-  targetGroupItems: state => Object.values(state.targetGroups.targetGroupList.rows),
-  targetGroupProgress: state => state.targetGroups.progress * 100
+  targetGroupHeaders: state => state.targetGroups.targetGroupList.header,
+  targetGroupItems: state => state.targetGroups.targetGroupList.rows,
+  targetGroupProgress: state => state.targetGroups.progress * 100,
+  resultHeaders: state => state.result.resultList.header,
+  resultItems: state => state.result.resultList.rows,
+  resultProgress: state => state.result.progress * 100
 }
 
 const actions = {

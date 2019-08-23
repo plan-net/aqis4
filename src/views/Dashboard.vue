@@ -21,7 +21,7 @@
         </v-stepper-header>
         <v-stepper-items>
           <v-stepper-content step="1">
-            <v-card class="mb-3 pt-5" height="calc(100vh - 450px)">
+            <v-card class="mb-3 py-5">
               <v-container fluid class="pa-0">
                 <v-layout justify-center wrap align-center row>
                   <v-spacer xs12 sm4/>
@@ -47,15 +47,18 @@
                 </v-layout>
               </v-container>
             </v-card>
-            <v-btn
-              color="primary"
-              @click="currentStep = 2"
-            >
-              Continue
-            </v-btn>
+            <v-layout row justify-end>
+              <v-btn
+                color="primary"
+                class="ma-0"
+                @click="currentStep = 2"
+              >
+                Continue
+              </v-btn>
+            </v-layout>
           </v-stepper-content>
           <v-stepper-content step="2">
-            <v-card class="mb-3 pt-5" height="calc(100vh - 450px)">
+            <v-card class="mb-4 pt-3">
               <v-data-table
                 v-model="selectedTargetGroups"
                 :headers="targetGroupHeaders"
@@ -79,34 +82,52 @@
                   <td>{{ props.item.ziel }}</td>
                 </template>
               </v-data-table>
-              <h3 class="mt-5">Progress:</h3>
+              <h3 class="mt-3">Progress:</h3>
               <v-progress-linear
                 color="success"
                 height="20"
+                class="mt-1"
                 :value="targetGroupProgress"
               ></v-progress-linear>
             </v-card>
-            <v-btn
-              color="primary"
-              @click="currentStep = 3"
-            >
-              Continue
-            </v-btn>
-            <v-btn text @click="currentStep = 1">Cancel</v-btn>
+            <v-layout row align-center justify-space-between>
+              <v-btn text @click="currentStep = 1" class="ma-0">Cancel</v-btn>
+              <v-btn
+                color="primary"
+                class="ma-0"
+                @click="currentStep = 3"
+              >
+                Continue
+              </v-btn>
+            </v-layout>
           </v-stepper-content>
           <v-stepper-content step="3">
-            <v-card
-              class="mb-12"
-              color="grey lighten-1"
-              height="200px"
-            ></v-card>
-            <v-btn
-              color="primary"
-              @click="currentStep = 1"
-            >
-              Continue
-            </v-btn>
-            <v-btn text>Cancel</v-btn>
+            <v-card class="mb-4 pt-3">
+              <v-data-table
+                :headers="resultHeaders"
+                :items="resultItems"
+                item-key="id"
+                class="elevation-1"
+              >
+                <template v-slot:items="props">
+                  <td>{{ props.item.campaign }}</td>
+                  <td>{{ props.item.start }}</td>
+                  <td>{{ props.item.end }}</td>
+                  <td>{{ props.item.impressions }}</td>
+                  <td>{{ props.item.panellist }}</td>
+                  <td>{{ props.item.estvalue }}</td>
+                  <td>{{ props.item.ziel }}</td>
+                </template>
+              </v-data-table>
+              <h3 class="mt-3">Progress:</h3>
+              <v-progress-linear
+                color="success"
+                height="20"
+                class="mt-1"
+                :value="resultProgress"
+              ></v-progress-linear>
+            </v-card>
+            <v-btn text @click="currentStep = 2" class="ma-0">Cancel</v-btn>
           </v-stepper-content>
         </v-stepper-items>
       </v-stepper>
@@ -123,7 +144,16 @@ export default {
   mounted () {
   },
   computed: {
-    ...mapGetters('dashboard', ['clients', 'campaigns', 'targetGroupHeaders', 'targetGroupItems', 'targetGroupProgress'])
+    ...mapGetters('dashboard', [
+      'clients',
+      'campaigns',
+      'targetGroupHeaders',
+      'targetGroupItems',
+      'targetGroupProgress',
+      'resultHeaders',
+      'resultItems',
+      'resultProgress'
+    ])
   },
   data () {
     return {
