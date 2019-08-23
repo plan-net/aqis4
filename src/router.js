@@ -28,8 +28,8 @@ export const routes = [
     }
   },
   {
-    path: '/campaign',
-    name: 'campaign',
+    path: '/dashboard',
+    name: 'dashboard',
     component: Dashboard,
     meta: {
       // auth: true,

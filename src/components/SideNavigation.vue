@@ -15,7 +15,7 @@
             </v-list-tile-title>
           </v-list-tile-content>
         </v-list-tile>
-        <v-list-tile to="/campaign" key="-1002">
+        <v-list-tile to="/dashboard" key="-1002">
           <v-list-tile-content>
             <v-list-tile-title>
               Dashboard
