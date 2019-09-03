@@ -1,3 +1,5 @@
+import Vue from 'vue'
+
 const state = {
   clients: {
     '1234': {
@@ -263,6 +265,18 @@ const actions = {
 }
 
 const mutations = {
+  SOCKET_ONOPEN (state, event) {
+    Vue.prototype.$socket = event.currentTarget
+    Vue.prototype.$socket.sendObj({ 'type': 'open' })
+
+    state.socket.isConnected = true
+    state.socket.reconnectError = false
+  },
+  SOCKET_ONCLOSE (state) {},
+  SOCKET_ONERROR (state, event) {},
+  SOCKET_ONMESSAGE (state, message) {},
+  SOCKET_RECONNECT (state, count) {},
+  SOCKET_RECONNECT_ERROR (state) {}
 }
 
 export default {

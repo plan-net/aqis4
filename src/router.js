@@ -6,29 +6,29 @@ import Dashboard from '@/views/Dashboard'
 
 Vue.use(Router)
 export const routes = [
+  // {
+  //   path: '/',
+  //   name: 'overview',
+  //   component: Overview,
+  //   meta: {
+  //     // auth: true,
+  //     hideNav: false,
+  //     title: 'Overview'
+  //   }
+  // },
+  // {
+  //   path: '/client/:id',
+  //   name: 'client',
+  //   component: Client,
+  //   props: true,
+  //   meta: {
+  //     // auth: true,
+  //     hideNav: false,
+  //     title: 'Client'
+  //   }
+  // },
   {
     path: '/',
-    name: 'overview',
-    component: Overview,
-    meta: {
-      // auth: true,
-      hideNav: false,
-      title: 'Overview'
-    }
-  },
-  {
-    path: '/client/:id',
-    name: 'client',
-    component: Client,
-    props: true,
-    meta: {
-      // auth: true,
-      hideNav: false,
-      title: 'Client'
-    }
-  },
-  {
-    path: '/dashboard',
     name: 'dashboard',
     component: Dashboard,
     meta: {
