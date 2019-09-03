@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Overview from '@/views/Overview'
-import Client from '@/views/Client'
+// import Overview from '@/views/Overview'
+// import Client from '@/views/Client'
 import Dashboard from '@/views/Dashboard'
 
 Vue.use(Router)

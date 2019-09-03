@@ -262,6 +262,23 @@ const getters = {
 }
 
 const actions = {
+  getClient () {
+    Vue.prototype.$socket.sendObj({
+      'X-Request-ID': new Date().getTime(),
+      method: 'getClient'
+    })
+  },
+  getCampaign (context, data) {
+    Vue.prototype.$socket.sendObj({
+      'X-Request-ID': new Date().getTime(),
+      method: 'getCampaign',
+      data: {
+        clientIds: data.clientIds,
+        start: data.start,
+        end: data.end
+      }
+    })
+  }
 }
 
 const mutations = {
@@ -274,7 +291,19 @@ const mutations = {
   },
   SOCKET_ONCLOSE (state) {},
   SOCKET_ONERROR (state, event) {},
-  SOCKET_ONMESSAGE (state, message) {},
+  SOCKET_ONMESSAGE (state, message) {
+    if (message.connectionId) {
+      window.WS_CONNECTION_ID = message.connectionId
+    }
+
+    if (message.method === 'getClient') {
+      state.clients = message.data.clientList
+    }
+
+    if (message.method === 'getCampaign') {
+      state.campaigns = message.data.campaignList
+    }
+  },
   SOCKET_RECONNECT (state, count) {},
   SOCKET_RECONNECT_ERROR (state) {}
 }
