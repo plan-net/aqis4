@@ -34,7 +34,7 @@ import { mapGetters } from 'vuex'
 export default {
   name: 'dashboard-result',
   computed: {
-    ...mapGetters('dashboard', [
+    ...mapGetters([
       'resultHeaders',
       'resultItems',
       'resultProgress'

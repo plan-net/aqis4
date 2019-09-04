@@ -1,3 +1,12 @@
+import {
+  SOCKET_ONOPEN,
+  SOCKET_ONCLOSE,
+  SOCKET_ONERROR,
+  SOCKET_ONMESSAGE,
+  SOCKET_RECONNECT,
+  SOCKET_RECONNECT_ERROR
+} from '@/store/types'
+
 import Vue from 'vue'
 
 const state = {
@@ -245,6 +254,11 @@ const state = {
         }
       ]
     }
+  },
+  socket: {
+    isConnected: false,
+    message: '',
+    reconnectError: false
   }
 }
 
@@ -262,12 +276,6 @@ const getters = {
 }
 
 const actions = {
-  getClient () {
-    Vue.prototype.$socket.sendObj({
-      'X-Request-ID': new Date().getTime(),
-      method: 'getClient'
-    })
-  },
   getCampaign (context, data) {
     Vue.prototype.$socket.sendObj({
       'X-Request-ID': new Date().getTime(),
@@ -282,34 +290,51 @@ const actions = {
 }
 
 const mutations = {
-  SOCKET_ONOPEN (state, event) {
+  [SOCKET_ONOPEN] (state, event) {
     Vue.prototype.$socket = event.currentTarget
-    Vue.prototype.$socket.sendObj({ 'type': 'open' })
+    Vue.prototype.$socket.sendObj({
+      'X-Request-ID': new Date().getTime(),
+      method: 'getClient'
+    })
 
     state.socket.isConnected = true
     state.socket.reconnectError = false
   },
-  SOCKET_ONCLOSE (state) {},
-  SOCKET_ONERROR (state, event) {},
-  SOCKET_ONMESSAGE (state, message) {
+  [SOCKET_ONCLOSE] (state) {},
+  [SOCKET_ONERROR] (state, event) {},
+  [SOCKET_ONMESSAGE] (state, message) {
     if (message.connectionId) {
       window.WS_CONNECTION_ID = message.connectionId
     }
 
     if (message.method === 'getClient') {
-      state.clients = message.data.clientList
+      state.clients = message.data.clientList.reduce((dict, current) => {
+        dict[current['client_id']] = {
+          id: current['client_id'],
+          name: current['client_name']
+        }
+
+        return dict
+      }, {})
     }
 
     if (message.method === 'getCampaign') {
-      state.campaigns = message.data.campaignList
+      state.campaigns = message.data.campaignList.reduce((dict, current) => {
+        dict[current['campaign_id']] = {
+          id: current['campaign_id'],
+          name: current['campaign_name']
+        }
+
+        return dict
+      }, {})
     }
   },
-  SOCKET_RECONNECT (state, count) {},
-  SOCKET_RECONNECT_ERROR (state) {}
+  [SOCKET_RECONNECT] (state, count) {},
+  [SOCKET_RECONNECT_ERROR] (state) {}
 }
 
 export default {
-  namespaced: true,
+  // namespaced: true,
   state,
   actions,
   mutations,

@@ -51,7 +51,7 @@ import { mapGetters } from 'vuex'
 export default {
   name: 'sa-dashboard',
   computed: {
-    ...mapGetters('dashboard', [
+    ...mapGetters([
       'targetGroupHeaders',
       'targetGroupItems',
       'targetGroupProgress'

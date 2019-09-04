@@ -59,7 +59,7 @@
                     <v-date-picker v-model="endDate" @input="openEndDatePicker = false" :min="startDate"></v-date-picker>
                   </v-menu>
                 </v-layout>
-                <v-btn block color="primary" :disabled="!selectedClientIds.length || !startDate || !endDate">Search Campaigns</v-btn>
+                <v-btn block color="primary" :disabled="!selectedClientIds.length || !startDate || !endDate" v-on:click="searchCampaigns()">Search Campaigns</v-btn>
               </v-flex>
             </v-card-title>
           </v-card>
@@ -114,7 +114,7 @@ import { mapGetters } from 'vuex'
 export default {
   name: 'dashboard-client-campaign',
   computed: {
-    ...mapGetters('dashboard', [
+    ...mapGetters([
       'clients',
       'campaigns'
     ])
@@ -133,6 +133,13 @@ export default {
     removeCampaign (item) {
       const index = this.selectedCampaignIds.indexOf(item.id)
       if (index >= 0) this.selectedCampaignIds.splice(index, 1)
+    },
+    searchCampaigns () {
+      this.$store.dispatch('getCampaign', {
+        clientIds: this.selectedClientIds,
+        start: this.startDate,
+        end: this.endDate
+      })
     }
   }
 }
