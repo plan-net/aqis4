@@ -1,0 +1,1 @@
+export const DISPLAY_AMOUNT_CRITERIA = 7

@@ -22,6 +22,13 @@
             </v-list-tile-title>
           </v-list-tile-content>
         </v-list-tile>
+        <v-list-tile to="/demo-placement" key="-1003">
+          <v-list-tile-content>
+            <v-list-tile-title>
+              Demo & Placement
+            </v-list-tile-title>
+          </v-list-tile-content>
+        </v-list-tile>
       </template>
 
     </v-slide-y-transition>

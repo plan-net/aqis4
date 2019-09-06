@@ -25,7 +25,7 @@
         :value="resultProgress"
       ></v-progress-linear>
     </v-card>
-    <v-btn text @click="$emit('cancel')" class="ma-0">Cancel</v-btn>
+    <v-btn text @click="$emit('cancel')" class="ma-0">Previous</v-btn>
   </div>
 </template>
 <script>

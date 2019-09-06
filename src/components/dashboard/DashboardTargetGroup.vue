@@ -1,5 +1,33 @@
 <template>
   <div>
+    <fieldset class="pa-3" v-if="details">
+      <legend>
+        Step 3
+      </legend>
+      <v-layout align-space-between justify-space-between row wrap>
+        <v-flex xs12 sm6>
+          <v-select
+            :items="items"
+            label="Standard"
+            class="px-2"
+          ></v-select>
+        </v-flex>
+        <v-flex xs12 sm6>
+          <v-select
+            :items="items"
+            label="Standard"
+            class="px-2"
+          ></v-select>
+        </v-flex>
+        <v-flex xs12 sm6>
+          <v-select
+            :items="items"
+            label="Standard"
+            class="px-2"
+          ></v-select>
+        </v-flex>
+      </v-layout>
+    </fieldset>
     <v-card class="mb-4 pt-3">
       <v-data-table
         v-model="selectedTargetGroups"
@@ -13,7 +41,7 @@
           <td>
             <v-checkbox
               v-model="props.selected"
-              primary
+              color="primary"
               hide-details
             ></v-checkbox>
           </td>
@@ -25,22 +53,22 @@
         </template>
       </v-data-table>
       <h3 class="mt-3">Progress:</h3>
-      <v-progress-linear
-        color="success"
-        height="20"
-        class="mt-1"
-        :value="targetGroupProgress"
-      ></v-progress-linear>
+      <v-progress-linear :value="targetGroupProgress"></v-progress-linear>
     </v-card>
     <v-layout row align-center justify-space-between>
-      <v-btn text @click="$emit('cancel')" class="ma-0">Cancel</v-btn>
+      <v-btn
+          text
+          @click="handlePreviousClick()"
+          class="ma-0">
+        Previous
+      </v-btn>
       <v-btn
         color="primary"
         class="ma-0"
         :disabled="!selectedTargetGroups.length"
-        @click="$emit('continue')"
+        @click="handleNextClick()"
       >
-        Continue
+        Next
       </v-btn>
     </v-layout>
   </div>
@@ -57,11 +85,27 @@ export default {
       'targetGroupProgress'
     ])
   },
+  props: {
+    details: Boolean
+  },
   data () {
     return {
       selectedTargetGroups: []
     }
   },
-  methods: {}
+  methods: {
+    handleNextClick () {
+      this.$store.dispatch('dashboard/subscribeTargetGroup', {
+        status: 'stop'
+      })
+      this.$emit('continue')
+    },
+    handlePreviousClick () {
+      this.$store.dispatch('dashboard/subscribeTargetGroup', {
+        status: 'stop'
+      })
+      this.$emit('cancel')
+    }
+  }
 }
 </script>

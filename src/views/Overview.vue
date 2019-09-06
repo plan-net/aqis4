@@ -22,7 +22,7 @@
                     <v-layout justify-center row wrap style="margin-left: -16px; margin-right: -16px;"
                               v-if="clients.length">
                         <v-flex xs6 sm4 md3 v-for="n in clients" :key="n._id" class="px-0 mx-3">
-                            <v-card :to="`/client/${n._id}`" class="mx-1 my-2">
+                            <v-card :to="n.path" class="mx-1 my-2">
                                 <v-img src="https://cdn.vuetifyjs.com/images/cards/desert.jpg"
                                        aspect-ratio="2"></v-img>
                                 <v-card-title primary-title>

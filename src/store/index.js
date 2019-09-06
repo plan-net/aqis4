@@ -3,6 +3,7 @@ import Vuex from 'vuex'
 import createLogger from 'vuex/dist/logger'
 import clients from './clients'
 import dashboard from './dashboard'
+import socket from './socket'
 
 const debug = process.env.NODE_ENV !== 'production'
 const plugins = debug ? [createLogger({})] : []
@@ -14,6 +15,7 @@ export default new Vuex.Store({
   strict: true, // debug,
   modules: {
     clients,
-    dashboard
+    dashboard,
+    socket
   }
 })
