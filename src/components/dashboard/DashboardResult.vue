@@ -25,7 +25,7 @@
         :value="resultProgress"
       ></v-progress-linear>
     </v-card>
-    <v-btn text @click="$emit('cancel')" class="ma-0">Previous</v-btn>
+    <v-btn text @click="handlePreviousClick()" class="ma-0">Previous</v-btn>
   </div>
 </template>
 <script>
@@ -39,6 +39,14 @@ export default {
       'resultItems',
       'resultProgress'
     ])
+  },
+  methods: {
+    handlePreviousClick () {
+      this.$store.dispatch('dashboard/subscribeCampaignResult', {
+        status: 'stop'
+      })
+      this.$emit('cancel')
+    }
   }
 }
 </script>

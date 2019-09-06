@@ -98,6 +98,13 @@ export default {
       this.$store.dispatch('dashboard/subscribeTargetGroup', {
         status: 'stop'
       })
+      this.$store.dispatch('dashboard/subscribeCampaignResult', {
+        targetGroupIds: this.selectedTargetGroups.map(targetGroup => targetGroup.id),
+        current_page: 1,
+        per_page: 10,
+        sort: 1,
+        sort_by: 'Campaign'
+      })
       this.$emit('continue')
     },
     handlePreviousClick () {
