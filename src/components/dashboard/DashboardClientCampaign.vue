@@ -170,12 +170,8 @@ export default {
       })
     },
     handleNextClick () {
-      this.$store.dispatch('dashboard/subscribeTargetGroup', {
-        campaignId: this.selectedCampaignIds,
-        current_page: 1,
-        per_page: 10,
-        sort: 1,
-        sort_by: 'Targetgroup'
+      this.$store.dispatch('dashboard/getTargetGroupValues', {
+        campaignIds: this.selectedCampaignIds
       })
       this.$emit('continue')
     }

@@ -3,6 +3,7 @@ import Vue from 'vue'
 const state = {
   clients: {},
   campaigns: {},
+  targetGroupValues: {},
   targetGroups: {},
   result: {}
 }
@@ -12,6 +13,7 @@ const getters = {
     return Object.values(state.clients)
   },
   campaigns: state => Object.values(state.campaigns),
+  targetGroupValues: state => state.targetGroupValues,
   targetGroupHeaders: state => (state.targetGroups.targetGroupList || {}).header || [],
   targetGroupItems: state => (state.targetGroups.targetGroupList || {}).rows || [],
   targetGroupProgress: state => (state.targetGroups.progress || 0) * 100,
@@ -30,6 +32,13 @@ const actions = {
         start: data.start,
         end: data.end
       }
+    })
+  },
+  getTargetGroupValues (context, data) {
+    Vue.prototype.$socket.sendObj({
+      'X-Request-ID': new Date().getTime(),
+      method: 'getTargetGroupValues',
+      data
     })
   },
   subscribeTargetGroup (context, data) {
@@ -68,6 +77,9 @@ const mutations = {
 
       return dict
     }, {})
+  },
+  updateTargetGroupValues (state, data) {
+    state.targetGroupValues = data
   },
   updateTargetGroup (context, data) {
     state.targetGroups = data
