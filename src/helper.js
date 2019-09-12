@@ -8,8 +8,7 @@ function getBasePath () {
     // index.html
     return window.APIBASE_APP.replace('http:', 'ws:')
   }
-
-  console.error(`incorrect network protocol ${window.location.href}`)
+  // console.error(`incorrect network protocol ${window.location.href}`)
 
   return `ws://${window.location.host}/core4/api`
 }

@@ -53,13 +53,13 @@ export default {
       this.$emit('close')
     },
     save () {
-      this.$validator.validate('Name').then(
-        async valid => {
-          if (valid) {
-            console.info('no logic')
-          }
-        }
-      )
+      // this.$validator.validate('Name').then(
+      //   async valid => {
+      //     if (valid) {
+      //       console.info('no logic')
+      //     }
+      //   }
+      // )
     }
   },
   computed: {

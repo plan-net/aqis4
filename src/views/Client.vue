@@ -25,9 +25,9 @@ export default {
       .then(resp => {
         this.greeting = resp
       })
-      .catch(err => {
-        console.log(err)
-      })
+      // .catch(err => {
+      //   console.log(err)
+      // })
   },
   data () {
     return {

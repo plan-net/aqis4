@@ -3,6 +3,7 @@ import Vue from 'vue'
 const state = {
   clients: {},
   campaigns: {},
+  selectedCampaigns: {},
   targetGroupValues: {},
   targetGroups: {},
   result: {}
@@ -13,13 +14,14 @@ const getters = {
     return Object.values(state.clients)
   },
   campaigns: state => Object.values(state.campaigns),
-  targetGroupValues: state => state.targetGroupValues,
-  targetGroupHeaders: state => (state.targetGroups.targetGroupList || {}).header || [],
-  targetGroupItems: state => (state.targetGroups.targetGroupList || {}).rows || [],
-  targetGroupProgress: state => (state.targetGroups.progress || 0) * 100,
-  resultHeaders: state => (state.result.resultList || {}).header || [],
-  resultItems: state => (state.result.resultList || {}).rows || [],
-  resultProgress: state => (state.result.progress || 0) * 100
+  selectedCampaigns: state => state.selectedCampaigns,
+  targetGroupValues: state => state.targetGroupValues || {},
+  targetGroupHeaders: state => (state.targetGroups || {}).header || [],
+  targetGroupRows: state => (state.targetGroups || {}).rows || [],
+  targetGroupProgress: state => (state.targetGroups || {}).progress || 0,
+  resultHeaders: state => ((state.result || {}).resultList || {}).header || [],
+  resultItems: state => ((state.result || {}).resultList || {}).rows || [],
+  resultProgress: state => ((state.result || {}).progress || 0) * 100
 }
 
 const actions = {
@@ -34,10 +36,20 @@ const actions = {
       }
     })
   },
+  setSelectedCampaigns (context, data) {
+    context.commit('updateSelectedCampaigns', data)
+  },
   getTargetGroupValues (context, data) {
     Vue.prototype.$socket.sendObj({
       'X-Request-ID': new Date().getTime(),
       method: 'getTargetGroupValues',
+      data
+    })
+  },
+  getTargetGroupOverview (context, data) {
+    Vue.prototype.$socket && Vue.prototype.$socket.sendObj({
+      'X-Request-ID': new Date().getTime(),
+      method: 'getTargetGroupOverview',
       data
     })
   },
@@ -78,11 +90,20 @@ const mutations = {
       return dict
     }, {})
   },
+  updateSelectedCampaigns (state, data) {
+    state.selectedCampaigns = data
+  },
   updateTargetGroupValues (state, data) {
     state.targetGroupValues = data
   },
-  updateTargetGroup (context, data) {
+  updateTargetGroupOverview (state, data) {
+    let progress = 0
     state.targetGroups = data
+    data.rows.map((row, index) => {
+      row.id = index + '' + row.categories + '-' + row.targetgroup
+      progress += row.targetgroup_percent
+    })
+    state.targetGroups.progress = progress / data.rows.length
   },
   updateResults (context, data) {
     state.result = data

@@ -1,10 +1,10 @@
-import {createLocalVue, mount} from '@vue/test-utils';
+import { createLocalVue, mount } from '@vue/test-utils'
 import Vuex from 'vuex'
 import Component from '@/components/sa-client/sub/NewScenario.vue'
 import Router from 'vue-router'
-import {FETCH_CLIENTS,} from '@/store/types'
-import Core4ui from "core4ui/core4";
-import THEME from "core4ui/core4/themes/core4/theme-vuetify";
+import { FETCH_CLIENTS } from '@/store/types'
+import Core4ui from 'core4ui/core4'
+import THEME from 'core4ui/core4/themes/core4/theme-vuetify'
 import router from '@/router'
 import moment from 'moment'
 
@@ -14,20 +14,21 @@ import moment from 'moment'
  *
  * @return undefined
  */
-function addElemWithDataAppToBody() {
-  const app = document.createElement('div');
-  app.setAttribute('data-app', true);
-  document.body.append(app);
+function addElemWithDataAppToBody () {
+  const app = document.createElement('div')
+  app.setAttribute('data-app', true)
+  document.body.append(app)
 };
 
-function getStore(getters, actions) {
+function getStore (getters, actions) {
   return new Vuex.Store({
     getters, actions
   })
 }
-addElemWithDataAppToBody();
-const build = (options) => {
 
+addElemWithDataAppToBody()
+
+const build = (options) => {
   let getters
   let store
   let actions
@@ -90,19 +91,19 @@ const build = (options) => {
     ]
   }
   store = getStore(getters, actions)
-  const wrapper2 = mount(Component, Object.assign(options, {store}))
+  const wrapper2 = mount(Component, Object.assign(options, { store }))
   return {
     wrapper: wrapper2,
     userSearchForm: () => wrapper2.find('div')
   }
 }
+
 describe('NewScenario.vue', () => {
   let wrapper
   let localVue
 
   beforeEach(() => {
-
-    localVue = createLocalVue();
+    localVue = createLocalVue()
     localVue.filter('date', (value) => {
       if (value) {
         return moment(String(value)).format('DD.MM.YYYY') // H:mm
@@ -118,14 +119,11 @@ describe('NewScenario.vue', () => {
 
       store: new Vuex.Store()
     })
-
   })
 
   it('renders new-scenario dialog', () => {
-
-    const element = build({localVue, router, attachToDocument: true})
+    const element = build({ localVue, router, attachToDocument: true })
     wrapper = element.wrapper
-    console.log(wrapper);
+    console.log(wrapper)
   })
-
 })

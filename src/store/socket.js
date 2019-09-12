@@ -47,8 +47,8 @@ const mutations = {
       case 'getTargetGroupValues':
         this.commit('dashboard/updateTargetGroupValues', message.data)
         break
-      case 'subscribeTargetGroup':
-        this.commit('dashboard/updateTargetGroup', message.data)
+      case 'getTargetGroupOverview':
+        this.commit('dashboard/updateTargetGroupOverview', message.data)
         break
       case 'subscribeCampaignResult':
         this.commit('dashboard/updateResults', message.data)

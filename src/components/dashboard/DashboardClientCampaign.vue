@@ -170,6 +170,7 @@ export default {
       })
     },
     handleNextClick () {
+      this.$store.dispatch('dashboard/setSelectedCampaigns', this.selectedCampaignIds)
       this.$store.dispatch('dashboard/getTargetGroupValues', {
         campaignIds: this.selectedCampaignIds
       })
