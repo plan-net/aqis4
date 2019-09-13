@@ -11,7 +11,7 @@
               <v-subheader class="pa-0">Age from _</v-subheader>
               <v-autocomplete
                 v-model="ageMin"
-                :items="targetGroupValues._age ? targetGroupValues._age.values : [ageMin]"
+                :items="ageMinList"
                 :value="ageMin"
                 class="black--text"
                 :multiple="targetGroupValues._age ? targetGroupValues._age.multiple_selection : false"
@@ -24,7 +24,7 @@
               <v-subheader class="pa-0">_ to</v-subheader>
               <v-autocomplete
                 v-model="ageMax"
-                :items="targetGroupValues._age ? targetGroupValues._age.values : [ageMax]"
+                :items="ageMaxList"
                 :value="ageMax"
                 class="black--text"
                 :multiple="targetGroupValues._age ? targetGroupValues._age.multiple_selection : false"
@@ -91,7 +91,7 @@
               <v-subheader class="pa-0">HHIncome from _</v-subheader>
               <v-autocomplete
                 v-model="hhincomeMin"
-                :items="targetGroupValues.hhincome ? targetGroupValues.hhincome.values : [hhincomeMin]"
+                :items="hhincomeMinList"
                 :value="hhincomeMin"
                 class="black--text"
                 :multiple="targetGroupValues.hhincome ? targetGroupValues.hhincome.multiple_selection : false"
@@ -104,7 +104,7 @@
               <v-subheader class="pa-0">HHIncome _ to</v-subheader>
               <v-autocomplete
                 v-model="hhincomeMax"
-                :items="targetGroupValues.hhincome ? targetGroupValues.hhincome.values : [hhincomeMax]"
+                :items="hhincomeMaxList"
                 :value="hhincomeMax"
                 class="black--text"
                 :multiple="targetGroupValues.hhincome ? targetGroupValues.hhincome.multiple_selection : false"
@@ -133,7 +133,7 @@
               <v-subheader class="pa-0">PinHH MIN</v-subheader>
               <v-autocomplete
                 v-model="pinhhGroupMin"
-                :items="targetGroupValues.pinhh_group ? targetGroupValues.pinhh_group.values : [pinhhGroupMin]"
+                :items="pinhhGroupMinList"
                 :value="pinhhGroupMin"
                 class="black--text"
                 :multiple="targetGroupValues.pinhh_group ? targetGroupValues.pinhh_group.multiple_selection : false"
@@ -146,7 +146,7 @@
               <v-subheader class="pa-0">PinHH MAX</v-subheader>
               <v-autocomplete
                 v-model="pinhhGroupMax"
-                :items="targetGroupValues.pinhh_group ? targetGroupValues.pinhh_group.values : [pinhhGroupMax]"
+                :items="pinhhGroupMaxList"
                 :value="pinhhGroupMax"
                 class="black--text"
                 :multiple="targetGroupValues.pinhh_group ? targetGroupValues.pinhh_group.multiple_selection : false"
@@ -188,6 +188,7 @@
         :headers="targetGroupHeaders"
         :items="targetGroupRows"
         hide-actions
+        :must-sort="true"
         class="elevation-1"
       >
         <template v-slot:items="props">
@@ -197,8 +198,6 @@
           <td>{{ props.item.targetgroup_percent }}</td>
         </template>
       </v-data-table>
-      <h3 class="mt-3">Progress:</h3>
-      <v-progress-linear :value="targetGroupProgress"></v-progress-linear>
     </v-card>
     <v-layout row align-center justify-space-between>
       <v-btn
@@ -210,6 +209,7 @@
       <v-btn
         color="primary"
         class="ma-0"
+        :disabled="!targetGroupValues || !targetGroupRows.length"
         @click="handleNextClick()"
       >
         Next
@@ -227,8 +227,7 @@ export default {
       'selectedCampaigns',
       'targetGroupValues',
       'targetGroupHeaders',
-      'targetGroupRows',
-      'targetGroupProgress'
+      'targetGroupRows'
     ])
   },
   props: {
@@ -236,24 +235,67 @@ export default {
   },
   data () {
     return {
-      ageMin: (this.targetGroupValues || {})._age ? this.targetGroupValues._age.default.min : '1',
-      ageMax: (this.targetGroupValues || {})._age ? this.targetGroupValues._age.default.max : '100',
-      child: [(this.targetGroupValues || {}).child ? this.targetGroupValues.child.default : 'All'],
-      edu: [(this.targetGroupValues || {}).edu ? this.targetGroupValues.edu.default : 'All'],
-      fam: [(this.targetGroupValues || {}).fam ? this.targetGroupValues.fam.default : 'All'],
-      gen: [(this.targetGroupValues || {}).gen ? this.targetGroupValues.gen.default : 'All'],
-      heb: [(this.targetGroupValues || {}).heb ? this.targetGroupValues.heb.default : 'All'],
-      hhf: [(this.targetGroupValues || {}).hhf ? this.targetGroupValues.hhf.default : 'All'],
-      hhincomeMin: (this.targetGroupValues || {}).hhincome ? this.targetGroupValues.hhincome.default.min : '0 bis unter 500 Euro',
-      hhincomeMax: (this.targetGroupValues || {}).hhincome ? this.targetGroupValues.hhincome.default.max : '5.000 Euro und mehr',
-      pinhhGroupMin: (this.targetGroupValues || {}).pinhh_group ? this.targetGroupValues.pinhh_group.default.min : '1 Person',
-      pinhhGroupMax: (this.targetGroupValues || {}).pinhh_group ? this.targetGroupValues.pinhh_group.default.max : '5+ Personen',
-      state: [(this.targetGroupValues || {}).state ? this.targetGroupValues.state.default : 'All'],
+      ageMin: '',
+      ageMax: '',
+      ageMinList: [],
+      ageMaxList: [],
+      child: [],
+      edu: [],
+      fam: [],
+      gen: [],
+      heb: [],
+      hhf: [],
+      hhincomeMin: '',
+      hhincomeMax: '',
+      hhincomeMinList: [],
+      hhincomeMaxList: [],
+      pinhhGroupMin: '',
+      pinhhGroupMax: '',
+      pinhhGroupMinList: [],
+      pinhhGroupMaxList: [],
+      state: []
     }
   },
   watch: {
-    selectedCampaigns (value) {
-      value.length > 0 && this.handleTargetGroupOverview()
+    targetGroupValues (value) {
+      this.ageMin = value._age.default.min
+      this.ageMax = value._age.default.max
+      this.ageMinList = value._age.values
+      this.ageMaxList = value._age.values
+      this.child = value.child.default
+      this.edu = value.edu.default
+      this.fam = value.fam.default
+      this.gen = value.gen.default
+      this.heb = value.heb.default
+      this.hhf = value.hhf.default
+      this.hhincomeMin = value.hhincome.default.min
+      this.hhincomeMax = value.hhincome.default.max
+      this.hhincomeMinList = value.hhincome.values
+      this.hhincomeMaxList = value.hhincome.values
+      this.pinhhGroupMin = value.pinhh_group.default.min
+      this.pinhhGroupMax = value.pinhh_group.default.max
+      this.pinhhGroupMinList = value.pinhh_group.values
+      this.pinhhGroupMaxList = value.pinhh_group.values
+      this.state = value.state.default
+      this.handleTargetGroupOverview()
+    },
+    ageMin (value) {
+      this.ageMaxList = this.targetGroupValues._age.values.slice(this.targetGroupValues._age.values.indexOf(value))
+    },
+    ageMax (value) {
+      this.ageMinList = this.targetGroupValues._age.values.slice(0, this.targetGroupValues._age.values.indexOf(value) + 1)
+    },
+    hhincomeMin (value) {
+      this.hhincomeMaxList = this.targetGroupValues.hhincome.values.slice(this.targetGroupValues.hhincome.values.indexOf(value))
+    },
+    hhincomeMax (value) {
+      this.hhincomeMinList = this.targetGroupValues.hhincome.values.slice(0, this.targetGroupValues.hhincome.values.indexOf(value) + 1)
+    },
+    pinhhGroupMin (value) {
+      this.pinhhGroupMaxList = this.targetGroupValues.pinhh_group.values.slice(this.targetGroupValues.pinhh_group.values.indexOf(value))
+    },
+    pinhhGroupMax (value) {
+      this.pinhhGroupMinList = this.targetGroupValues.pinhh_group.values.slice(0, this.targetGroupValues.pinhh_group.values.indexOf(value) + 1)
     },
     child (newArr, oldArr) {
       if (newArr.includes('All') && !oldArr.includes('All')) {
@@ -308,10 +350,6 @@ export default {
   methods: {
     handleNextClick () {
       this.$store.dispatch('SOCKET_ONSEND', {
-        method: 'subscribeTargetGroup',
-        status: 'stop'
-      })
-      this.$store.dispatch('SOCKET_ONSEND', {
         method: 'subscribeCampaignResult',
         targetGroupIds: [this.selectedCampaigns],
         current_page: 1,
@@ -322,6 +360,7 @@ export default {
       this.$emit('continue')
     },
     handlePreviousClick () {
+      this.$store.dispatch('dashboard/setSelectedCampaigns', [])
       this.$store.dispatch('SOCKET_ONSEND', {
         method: 'subscribeTargetGroup',
         status: 'stop'

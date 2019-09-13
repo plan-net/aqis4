@@ -12,7 +12,7 @@
               <v-autocomplete
                 v-model="selectedClientIds"
                 :disabled="!clients.length"
-                :items="['All'].concat(clients)"
+                :items="[ALL].concat(clients)"
                 chips
                 label="Clients"
                 item-text="name"
@@ -95,7 +95,7 @@
               <v-autocomplete
                 v-model="selectedCampaignIds"
                 :disabled="!campaigns.length"
-                :items="['All'].concat(campaigns)"
+                :items="[ALL].concat(campaigns)"
                 chips
                 label="Campaign"
                 item-text="name"
@@ -133,7 +133,7 @@
 <script>
 import { mapGetters } from 'vuex'
 import moment from 'moment'
-import { DISPLAY_AMOUNT_CRITERIA } from '@/constants'
+import { DISPLAY_AMOUNT_CRITERIA, ALL } from '@/constants'
 
 export default {
   name: 'dashboard-client-campaign',
@@ -146,6 +146,7 @@ export default {
   data () {
     return {
       DISPLAY_AMOUNT_CRITERIA,
+      ALL,
       openStartDatePicker: false,
       openEndDatePicker: false,
       startDate: moment().subtract(2, 'M').format('YYYY-MM-DD'),
@@ -157,14 +158,14 @@ export default {
   watch: {
     selectedClientIds (newArr, oldArr) {
       if (newArr.includes('All') && !oldArr.includes('All')) {
-        this.selectedClientIds = ['All'].concat(this.clients)
+        this.selectedClientIds = [this.ALL.id].concat(this.clients.map(client => client.id))
       } else if (!newArr.includes('All') && oldArr.includes('All')) {
         this.selectedClientIds = []
       }
     },
     selectedCampaignIds (newArr, oldArr) {
       if (newArr.includes('All') && !oldArr.includes('All')) {
-        this.selectedCampaignIds = ['All'].concat(this.campaigns)
+        this.selectedCampaignIds = [this.ALL.id].concat(this.campaigns.map(client => client.id))
       } else if (!newArr.includes('All') && oldArr.includes('All')) {
         this.selectedCampaignIds = []
       }
@@ -172,12 +173,20 @@ export default {
   },
   methods: {
     removeCampaign (item) {
-      const index = this.selectedCampaignIds.indexOf(item.id)
-      if (index >= 0) this.selectedCampaignIds.splice(index, 1)
+      if (item.id === 'All') {
+        this.selectedCampaignIds = []
+      } else {
+        const index = this.selectedCampaignIds.indexOf(item.id)
+        if (index >= 0) this.selectedCampaignIds.splice(index, 1)
+      }
     },
     removeClient (item) {
-      const index = this.selectedClientIds.indexOf(item.id)
-      if (index >= 0) this.selectedClientIds.splice(index, 1)
+      if (item.id === 'All') {
+        this.selectedClientIds = []
+      } else {
+        const index = this.selectedClientIds.indexOf(item.id)
+        if (index >= 0) this.selectedClientIds.splice(index, 1)
+      }
     },
     searchCampaigns () {
       this.$store.dispatch('SOCKET_ONSEND', {
