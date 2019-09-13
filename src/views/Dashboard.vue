@@ -1,15 +1,5 @@
 <template>
   <c4-page header-type="2">
-    <v-container fluid slot="page-header-content">
-      <v-layout class="white--text pt-2">
-        <v-flex>
-          <h3 class="display-1 mb-3">Welcome to dashboard</h3>
-          <div class="title">Lorem ipsum dolor sit amet, per movet conceptam ad, duo ut elit impetus
-              splendide.
-          </div>
-        </v-flex>
-      </v-layout>
-    </v-container>
     <transition name="fade" mode="out-in" :duration="{ enter: 200, leave: 300 }">
       <v-stepper v-model="currentStep">
         <v-stepper-header>

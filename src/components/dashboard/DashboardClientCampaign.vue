@@ -12,7 +12,7 @@
               <v-autocomplete
                 v-model="selectedClientIds"
                 :disabled="!clients.length"
-                :items="clients"
+                :items="['All'].concat(clients)"
                 chips
                 label="Clients"
                 item-text="name"
@@ -95,7 +95,7 @@
               <v-autocomplete
                 v-model="selectedCampaignIds"
                 :disabled="!campaigns.length"
-                :items="campaigns"
+                :items="['All'].concat(campaigns)"
                 chips
                 label="Campaign"
                 item-text="name"
@@ -132,6 +132,7 @@
 </template>
 <script>
 import { mapGetters } from 'vuex'
+import moment from 'moment'
 import { DISPLAY_AMOUNT_CRITERIA } from '@/constants'
 
 export default {
@@ -147,10 +148,26 @@ export default {
       DISPLAY_AMOUNT_CRITERIA,
       openStartDatePicker: false,
       openEndDatePicker: false,
-      startDate: null,
-      endDate: null,
+      startDate: moment().subtract(2, 'M').format('YYYY-MM-DD'),
+      endDate: moment().format('YYYY-MM-DD'),
       selectedClientIds: [],
       selectedCampaignIds: []
+    }
+  },
+  watch: {
+    selectedClientIds (newArr, oldArr) {
+      if (newArr.includes('All') && !oldArr.includes('All')) {
+        this.selectedClientIds = ['All'].concat(this.clients)
+      } else if (!newArr.includes('All') && oldArr.includes('All')) {
+        this.selectedClientIds = []
+      }
+    },
+    selectedCampaignIds (newArr, oldArr) {
+      if (newArr.includes('All') && !oldArr.includes('All')) {
+        this.selectedCampaignIds = ['All'].concat(this.campaigns)
+      } else if (!newArr.includes('All') && oldArr.includes('All')) {
+        this.selectedCampaignIds = []
+      }
     }
   },
   methods: {
@@ -163,7 +180,8 @@ export default {
       if (index >= 0) this.selectedClientIds.splice(index, 1)
     },
     searchCampaigns () {
-      this.$store.dispatch('dashboard/getCampaign', {
+      this.$store.dispatch('SOCKET_ONSEND', {
+        method: 'getCampaign',
         clientIds: this.selectedClientIds,
         start: this.startDate,
         end: this.endDate
@@ -171,7 +189,8 @@ export default {
     },
     handleNextClick () {
       this.$store.dispatch('dashboard/setSelectedCampaigns', this.selectedCampaignIds)
-      this.$store.dispatch('dashboard/getTargetGroupValues', {
+      this.$store.dispatch('SOCKET_ONSEND', {
+        method: 'getTargetGroupValues',
         campaignIds: this.selectedCampaignIds
       })
       this.$emit('continue')

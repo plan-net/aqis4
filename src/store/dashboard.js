@@ -1,4 +1,4 @@
-import Vue from 'vue'
+// import Vue from 'vue'
 
 const state = {
   clients: {},
@@ -25,47 +25,8 @@ const getters = {
 }
 
 const actions = {
-  getCampaign (context, data) {
-    Vue.prototype.$socket.sendObj({
-      'X-Request-ID': new Date().getTime(),
-      method: 'getCampaign',
-      data: {
-        clientIds: data.clientIds,
-        start: data.start,
-        end: data.end
-      }
-    })
-  },
   setSelectedCampaigns (context, data) {
     context.commit('updateSelectedCampaigns', data)
-  },
-  getTargetGroupValues (context, data) {
-    Vue.prototype.$socket.sendObj({
-      'X-Request-ID': new Date().getTime(),
-      method: 'getTargetGroupValues',
-      data
-    })
-  },
-  getTargetGroupOverview (context, data) {
-    Vue.prototype.$socket && Vue.prototype.$socket.sendObj({
-      'X-Request-ID': new Date().getTime(),
-      method: 'getTargetGroupOverview',
-      data
-    })
-  },
-  subscribeTargetGroup (context, data) {
-    Vue.prototype.$socket.sendObj({
-      'X-Request-ID': new Date().getTime(),
-      method: 'subscribeTargetGroup',
-      data
-    })
-  },
-  subscribeCampaignResult (context, data) {
-    Vue.prototype.$socket.sendObj({
-      'X-Request-ID': new Date().getTime(),
-      method: 'subscribeCampaignResult',
-      data
-    })
   }
 }
 

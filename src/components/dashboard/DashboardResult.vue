@@ -42,7 +42,8 @@ export default {
   },
   methods: {
     handlePreviousClick () {
-      this.$store.dispatch('dashboard/subscribeCampaignResult', {
+      this.$store.dispatch('SOCKET_ONSEND', {
+        method: 'subscribeCampaignResult',
         status: 'stop'
       })
       this.$emit('cancel')

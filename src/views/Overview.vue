@@ -1,21 +1,5 @@
 <template>
     <c4-page header-type="2" :dense="false">
-        <v-container fluid slot="page-header-content">
-            <v-layout justify-end class="white--text pt-2" row>
-                <v-flex xs8>
-                    <h3 class="display-1 mb-3">Welcome to the meeting Aqis</h3>
-                    <div class="title">Lorem ipsum dolor sit amet, per movet conceptam ad, duo ut elit impetus
-                        splendide.
-                    </div>
-                </v-flex>
-                <v-flex xs4 class="text-xs-right">
-                    <v-btn small large color="primary" @click="createDialogOpen=true">
-                        <v-icon class="mr-1" dark left>add</v-icon>
-                        Add a client
-                    </v-btn>
-                </v-flex>
-            </v-layout>
-        </v-container>
         <transition name="fade" mode="out-in" :duration="{ enter: 200, leave: 300 }">
             <div>
                 <v-container grid-list-xs fluid style="margin-top: -14px;">

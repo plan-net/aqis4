@@ -11,8 +11,8 @@
               <v-subheader class="pa-0">Age from _</v-subheader>
               <v-autocomplete
                 v-model="ageMin"
-                :items="targetGroupValues._age ? targetGroupValues._age.values : []"
-                :label="targetGroupValues._age ? targetGroupValues._age.format_short : ''"
+                :items="ageMinList"
+                :value="ageMin"
                 class="black--text"
                 :multiple="targetGroupValues._age ? targetGroupValues._age.multiple_selection : false"
                 @change="handleTargetGroupOverview"
@@ -24,8 +24,8 @@
               <v-subheader class="pa-0">_ to</v-subheader>
               <v-autocomplete
                 v-model="ageMax"
-                :items="targetGroupValues._age ? targetGroupValues._age.values : []"
-                :label="targetGroupValues._age ? targetGroupValues._age.format_short : ''"
+                :items="ageMaxList"
+                :value="ageMax"
                 class="black--text"
                 :multiple="targetGroupValues._age ? targetGroupValues._age.multiple_selection : false"
                 @change="handleTargetGroupOverview"
@@ -39,8 +39,8 @@
           <v-subheader class="pa-0">HHF</v-subheader>
           <v-autocomplete
             v-model="hhf"
-            :items="targetGroupValues.hhf ? targetGroupValues.hhf.values : []"
-            :label="targetGroupValues.hhf ? targetGroupValues.hhf.format_short : ''"
+            :items="targetGroupValues.hhf ? ['All'].concat(targetGroupValues.hhf.values) : hhf"
+            :value="hhf[0]"
             class="black--text"
             :multiple="targetGroupValues.hhf ? targetGroupValues.hhf.multiple_selection : true"
             @change="handleTargetGroupOverview"
@@ -51,8 +51,8 @@
           <v-subheader class="pa-0">Gender</v-subheader>
           <v-autocomplete
             v-model="gen"
-            :items="targetGroupValues.gen ? targetGroupValues.gen.values : []"
-            :label="targetGroupValues.gen ? targetGroupValues.gen.format_short : ''"
+            :items="targetGroupValues.gen ? ['All'].concat(targetGroupValues.gen.values) : gen"
+            :value="gen[0]"
             class="black--text"
             :multiple="targetGroupValues.gen ? targetGroupValues.gen.multiple_selection : true"
             @change="handleTargetGroupOverview"
@@ -64,8 +64,8 @@
           <v-subheader class="pa-0">HEB</v-subheader>
           <v-autocomplete
             v-model="heb"
-            :items="targetGroupValues.heb ? targetGroupValues.heb.values : []"
-            :label="targetGroupValues.heb ? targetGroupValues.heb.format_short : ''"
+            :items="targetGroupValues.heb ? ['All'].concat(targetGroupValues.heb.values) : heb"
+            :value="heb[0]"
             class="black--text"
             :multiple="targetGroupValues.heb ? targetGroupValues.heb.multiple_selection : true"
             @change="handleTargetGroupOverview"
@@ -76,8 +76,8 @@
           <v-subheader class="pa-0">Education</v-subheader>
           <v-autocomplete
             v-model="edu"
-            :items="targetGroupValues.edu ? targetGroupValues.edu.values : []"
-            :label="targetGroupValues.edu ? targetGroupValues.edu.format_short : ''"
+            :items="targetGroupValues.edu ? ['All'].concat(targetGroupValues.edu.values) : edu"
+            :value="edu[0]"
             class="black--text"
             :multiple="targetGroupValues.edu ? targetGroupValues.edu.multiple_selection : true"
             @change="handleTargetGroupOverview"
@@ -91,8 +91,8 @@
               <v-subheader class="pa-0">HHIncome from _</v-subheader>
               <v-autocomplete
                 v-model="hhincomeMin"
-                :items="targetGroupValues.hhincome ? targetGroupValues.hhincome.values : []"
-                :label="targetGroupValues.hhincome ? targetGroupValues.hhincome.format_short : ''"
+                :items="targetGroupValues.hhincome ? targetGroupValues.hhincome.values : [hhincomeMin]"
+                :value="hhincomeMin"
                 class="black--text"
                 :multiple="targetGroupValues.hhincome ? targetGroupValues.hhincome.multiple_selection : false"
                 @change="handleTargetGroupOverview"
@@ -104,8 +104,8 @@
               <v-subheader class="pa-0">HHIncome _ to</v-subheader>
               <v-autocomplete
                 v-model="hhincomeMax"
-                :items="targetGroupValues.hhincome ? targetGroupValues.hhincome.values : []"
-                :label="targetGroupValues.hhincome ? targetGroupValues.hhincome.format_short : ''"
+                :items="targetGroupValues.hhincome ? targetGroupValues.hhincome.values : [hhincomeMax]"
+                :value="hhincomeMax"
                 class="black--text"
                 :multiple="targetGroupValues.hhincome ? targetGroupValues.hhincome.multiple_selection : false"
                 @change="handleTargetGroupOverview"
@@ -118,8 +118,8 @@
           <v-subheader class="pa-0">State</v-subheader>
           <v-autocomplete
             v-model="state"
-            :items="targetGroupValues.state ? targetGroupValues.state.values : []"
-            :label="targetGroupValues.state ? targetGroupValues.state.format_short : ''"
+            :items="targetGroupValues.state ? ['All'].concat(targetGroupValues.state.values) : state"
+            :value="state[0]"
             class="black--text"
             :multiple="targetGroupValues.state ? targetGroupValues.state.multiple_selection : true"
             @change="handleTargetGroupOverview"
@@ -133,8 +133,8 @@
               <v-subheader class="pa-0">PinHH MIN</v-subheader>
               <v-autocomplete
                 v-model="pinhhGroupMin"
-                :items="targetGroupValues.pinhh_group ? targetGroupValues.pinhh_group.values : []"
-                :label="targetGroupValues.pinhh_group ? targetGroupValues.pinhh_group.format_short : ''"
+                :items="targetGroupValues.pinhh_group ? targetGroupValues.pinhh_group.values : [pinhhGroupMin]"
+                :value="pinhhGroupMin"
                 class="black--text"
                 :multiple="targetGroupValues.pinhh_group ? targetGroupValues.pinhh_group.multiple_selection : false"
                 @change="handleTargetGroupOverview"
@@ -146,8 +146,8 @@
               <v-subheader class="pa-0">PinHH MAX</v-subheader>
               <v-autocomplete
                 v-model="pinhhGroupMax"
-                :items="targetGroupValues.pinhh_group ? targetGroupValues.pinhh_group.values : []"
-                :label="targetGroupValues.pinhh_group ? targetGroupValues.pinhh_group.format_short : ''"
+                :items="targetGroupValues.pinhh_group ? targetGroupValues.pinhh_group.values : [pinhhGroupMax]"
+                :value="pinhhGroupMax"
                 class="black--text"
                 :multiple="targetGroupValues.pinhh_group ? targetGroupValues.pinhh_group.multiple_selection : false"
                 @change="handleTargetGroupOverview"
@@ -160,8 +160,8 @@
           <v-subheader class="pa-0">Marital status</v-subheader>
           <v-autocomplete
             v-model="fam"
-            :items="targetGroupValues.fam ? targetGroupValues.fam.values : []"
-            :label="targetGroupValues.fam ? targetGroupValues.fam.format_short : ''"
+            :items="targetGroupValues.fam ? ['All'].concat(targetGroupValues.fam.values) : fam"
+            :value="fam[0]"
             class="black--text"
             :multiple="targetGroupValues.fam ? targetGroupValues.fam.multiple_selection : true"
             @change="handleTargetGroupOverview"
@@ -173,8 +173,8 @@
           <v-subheader class="pa-0">Child in the household</v-subheader>
           <v-autocomplete
             v-model="child"
-            :items="targetGroupValues.child ? targetGroupValues.child.values : []"
-            :label="targetGroupValues.child ? targetGroupValues.child.format_short : ''"
+            :items="targetGroupValues.child ? ['All'].concat(targetGroupValues.child.values) : child"
+            :value="child[0]"
             class="black--text"
             :multiple="targetGroupValues.child ? targetGroupValues.child.multiple_selection : true"
             @change="handleTargetGroupOverview"
@@ -185,25 +185,16 @@
     </fieldset>
     <v-card class="mb-4 pt-3">
       <v-data-table
-        v-model="selectedTargetGroups"
         :headers="targetGroupHeaders"
         :items="targetGroupRows"
         hide-actions
-        select-all
         class="elevation-1"
       >
         <template v-slot:items="props">
-          <td>
-            <v-checkbox
-              v-model="props.selected"
-              color="primary"
-              hide-details
-            ></v-checkbox>
-          </td>
           <td>{{ props.item.categories }}</td>
+          <td>{{ props.item.total }}</td>
           <td>{{ props.item.targetgroup }}</td>
           <td>{{ props.item.targetgroup_percent }}</td>
-          <td>{{ props.item.total }}</td>
         </template>
       </v-data-table>
       <h3 class="mt-3">Progress:</h3>
@@ -219,7 +210,6 @@
       <v-btn
         color="primary"
         class="ma-0"
-        :disabled="!selectedTargetGroups.length"
         @click="handleNextClick()"
       >
         Next
@@ -248,6 +238,8 @@ export default {
     return {
       ageMin: (this.targetGroupValues || {})._age ? this.targetGroupValues._age.default.min : '1',
       ageMax: (this.targetGroupValues || {})._age ? this.targetGroupValues._age.default.max : '100',
+      ageMinList: this.targetGroupValues._age ? this.targetGroupValues._age.values : [this.ageMin],
+      ageMaxList: this.targetGroupValues._age ? this.targetGroupValues._age.values : [this.ageMax],
       child: [(this.targetGroupValues || {}).child ? this.targetGroupValues.child.default : 'All'],
       edu: [(this.targetGroupValues || {}).edu ? this.targetGroupValues.edu.default : 'All'],
       fam: [(this.targetGroupValues || {}).fam ? this.targetGroupValues.fam.default : 'All'],
@@ -258,22 +250,75 @@ export default {
       hhincomeMax: (this.targetGroupValues || {}).hhincome ? this.targetGroupValues.hhincome.default.max : '5.000 Euro und mehr',
       pinhhGroupMin: (this.targetGroupValues || {}).pinhh_group ? this.targetGroupValues.pinhh_group.default.min : '1 Person',
       pinhhGroupMax: (this.targetGroupValues || {}).pinhh_group ? this.targetGroupValues.pinhh_group.default.max : '5+ Personen',
-      state: [(this.targetGroupValues || {}).state ? this.targetGroupValues.state.default : 'All'],
-      selectedTargetGroups: []
+      state: [(this.targetGroupValues || {}).state ? this.targetGroupValues.state.default : 'All']
     }
   },
   watch: {
     selectedCampaigns (value) {
       value.length > 0 && this.handleTargetGroupOverview()
+    },
+    ageMin () {
+
+    },
+    child (newArr, oldArr) {
+      if (newArr.includes('All') && !oldArr.includes('All')) {
+        this.child = ['All'].concat(this.targetGroupValues.child.values)
+      } else if (!newArr.includes('All') && oldArr.includes('All')) {
+        this.child = []
+      }
+    },
+    edu (newArr, oldArr) {
+      if (newArr.includes('All') && !oldArr.includes('All')) {
+        this.edu = ['All'].concat(this.targetGroupValues.edu.values)
+      } else if (!newArr.includes('All') && oldArr.includes('All')) {
+        this.edu = []
+      }
+    },
+    fam (newArr, oldArr) {
+      if (newArr.includes('All') && !oldArr.includes('All')) {
+        this.fam = ['All'].concat(this.targetGroupValues.fam.values)
+      } else if (!newArr.includes('All') && oldArr.includes('All')) {
+        this.fam = []
+      }
+    },
+    gen (newArr, oldArr) {
+      if (newArr.includes('All') && !oldArr.includes('All')) {
+        this.gen = ['All'].concat(this.targetGroupValues.gen.values)
+      } else if (!newArr.includes('All') && oldArr.includes('All')) {
+        this.gen = []
+      }
+    },
+    heb (newArr, oldArr) {
+      if (newArr.includes('All') && !oldArr.includes('All')) {
+        this.heb = ['All'].concat(this.targetGroupValues.heb.values)
+      } else if (!newArr.includes('All') && oldArr.includes('All')) {
+        this.heb = []
+      }
+    },
+    hhf (newArr, oldArr) {
+      if (newArr.includes('All') && !oldArr.includes('All')) {
+        this.hhf = ['All'].concat(this.targetGroupValues.hhf.values)
+      } else if (!newArr.includes('All') && oldArr.includes('All')) {
+        this.hhf = []
+      }
+    },
+    state (newArr, oldArr) {
+      if (newArr.includes('All') && !oldArr.includes('All')) {
+        this.state = ['All'].concat(this.targetGroupValues.state.values)
+      } else if (!newArr.includes('All') && oldArr.includes('All')) {
+        this.state = []
+      }
     }
   },
   methods: {
     handleNextClick () {
-      this.$store.dispatch('dashboard/subscribeTargetGroup', {
+      this.$store.dispatch('SOCKET_ONSEND', {
+        method: 'subscribeTargetGroup',
         status: 'stop'
       })
-      this.$store.dispatch('dashboard/subscribeCampaignResult', {
-        targetGroupIds: this.selectedTargetGroups.map(targetGroup => targetGroup.id),
+      this.$store.dispatch('SOCKET_ONSEND', {
+        method: 'subscribeCampaignResult',
+        targetGroupIds: [this.selectedCampaigns],
         current_page: 1,
         per_page: 10,
         sort: 1,
@@ -282,13 +327,15 @@ export default {
       this.$emit('continue')
     },
     handlePreviousClick () {
-      this.$store.dispatch('dashboard/subscribeTargetGroup', {
+      this.$store.dispatch('SOCKET_ONSEND', {
+        method: 'subscribeTargetGroup',
         status: 'stop'
       })
       this.$emit('cancel')
     },
     handleTargetGroupOverview () {
-      this.$store.dispatch('dashboard/getTargetGroupOverview', {
+      this.$store.dispatch('SOCKET_ONSEND', {
+        method: 'getTargetGroupOverview',
         campaignIds: this.selectedCampaigns,
         selections: {
           _age: {
