@@ -11,7 +11,7 @@
               <v-subheader class="pa-0">Age from _</v-subheader>
               <v-autocomplete
                 v-model="ageMin"
-                :items="ageMinList"
+                :items="targetGroupValues._age ? targetGroupValues._age.values : [ageMin]"
                 :value="ageMin"
                 class="black--text"
                 :multiple="targetGroupValues._age ? targetGroupValues._age.multiple_selection : false"
@@ -24,7 +24,7 @@
               <v-subheader class="pa-0">_ to</v-subheader>
               <v-autocomplete
                 v-model="ageMax"
-                :items="ageMaxList"
+                :items="targetGroupValues._age ? targetGroupValues._age.values : [ageMax]"
                 :value="ageMax"
                 class="black--text"
                 :multiple="targetGroupValues._age ? targetGroupValues._age.multiple_selection : false"
@@ -238,8 +238,6 @@ export default {
     return {
       ageMin: (this.targetGroupValues || {})._age ? this.targetGroupValues._age.default.min : '1',
       ageMax: (this.targetGroupValues || {})._age ? this.targetGroupValues._age.default.max : '100',
-      ageMinList: this.targetGroupValues._age ? this.targetGroupValues._age.values : [this.ageMin],
-      ageMaxList: this.targetGroupValues._age ? this.targetGroupValues._age.values : [this.ageMax],
       child: [(this.targetGroupValues || {}).child ? this.targetGroupValues.child.default : 'All'],
       edu: [(this.targetGroupValues || {}).edu ? this.targetGroupValues.edu.default : 'All'],
       fam: [(this.targetGroupValues || {}).fam ? this.targetGroupValues.fam.default : 'All'],
@@ -250,15 +248,12 @@ export default {
       hhincomeMax: (this.targetGroupValues || {}).hhincome ? this.targetGroupValues.hhincome.default.max : '5.000 Euro und mehr',
       pinhhGroupMin: (this.targetGroupValues || {}).pinhh_group ? this.targetGroupValues.pinhh_group.default.min : '1 Person',
       pinhhGroupMax: (this.targetGroupValues || {}).pinhh_group ? this.targetGroupValues.pinhh_group.default.max : '5+ Personen',
-      state: [(this.targetGroupValues || {}).state ? this.targetGroupValues.state.default : 'All']
+      state: [(this.targetGroupValues || {}).state ? this.targetGroupValues.state.default : 'All'],
     }
   },
   watch: {
     selectedCampaigns (value) {
       value.length > 0 && this.handleTargetGroupOverview()
-    },
-    ageMin () {
-
     },
     child (newArr, oldArr) {
       if (newArr.includes('All') && !oldArr.includes('All')) {
