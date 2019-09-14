@@ -21,7 +21,7 @@ const getters = {
   targetGroupProgress: state => (state.targetGroups || {}).progress || 0,
   resultHeaders: state => ((state.result || {}).resultList || {}).header || [],
   resultItems: state => ((state.result || {}).resultList || {}).rows || [],
-  resultProgress: state => ((state.result || {}).progress || 0) * 100
+  resultProgress: state => (state.result || {}).progress || 0
 }
 
 const actions = {

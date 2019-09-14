@@ -8,12 +8,11 @@
         <v-flex xs12 sm5>
           <v-layout row wrap justify-space-between align-center>
             <v-flex>
-              <v-subheader class="pa-0">Age from _</v-subheader>
               <v-autocomplete
                 v-model="ageMin"
                 :items="ageMinList"
+                :label="`${targetGroupValues._age ? targetGroupValues._age.format_short : ''} from _`"
                 :value="ageMin"
-                class="black--text"
                 :multiple="targetGroupValues._age ? targetGroupValues._age.multiple_selection : false"
                 @change="handleTargetGroupOverview"
               >
@@ -21,12 +20,11 @@
             </v-flex>
             <v-spacer />
             <v-flex>
-              <v-subheader class="pa-0">_ to</v-subheader>
               <v-autocomplete
                 v-model="ageMax"
                 :items="ageMaxList"
+                :label="`${targetGroupValues._age ? targetGroupValues._age.format_short : ''} _ to`"
                 :value="ageMax"
-                class="black--text"
                 :multiple="targetGroupValues._age ? targetGroupValues._age.multiple_selection : false"
                 @change="handleTargetGroupOverview"
               >
@@ -36,64 +34,107 @@
         </v-flex>
         <v-spacer />
         <v-flex xs12 sm5>
-          <v-subheader class="pa-0">HHF</v-subheader>
           <v-autocomplete
             v-model="hhf"
             :items="targetGroupValues.hhf ? ['All'].concat(targetGroupValues.hhf.values) : hhf"
+            :label="targetGroupValues.hhf ? targetGroupValues.hhf.format_short : ''"
             :value="hhf[0]"
-            class="black--text"
             :multiple="targetGroupValues.hhf ? targetGroupValues.hhf.multiple_selection : true"
             @change="handleTargetGroupOverview"
           >
+            <template v-slot:selection="{ item, index }">
+              <v-chip v-if="!hhf.includes('All')">
+                <span>{{ item }}</span>
+              </v-chip>
+              <v-chip v-if="hhf.includes('All') && index === 0">
+                <span>{{ item }}</span>
+              </v-chip>
+              <span
+                v-if="hhf.includes('All') && index === 1"
+                class="grey--text caption"
+              >(+{{ hhf.length - 1 }} others)</span>
+            </template>
           </v-autocomplete>
         </v-flex>
         <v-flex xs12 sm5>
-          <v-subheader class="pa-0">Gender</v-subheader>
           <v-autocomplete
             v-model="gen"
             :items="targetGroupValues.gen ? ['All'].concat(targetGroupValues.gen.values) : gen"
+            :label="targetGroupValues.gen ? targetGroupValues.gen.format_short : ''"
             :value="gen[0]"
-            class="black--text"
             :multiple="targetGroupValues.gen ? targetGroupValues.gen.multiple_selection : true"
             @change="handleTargetGroupOverview"
           >
+            <template v-slot:selection="{ item, index }">
+              <v-chip v-if="!gen.includes('All')">
+                <span>{{ item }}</span>
+              </v-chip>
+              <v-chip v-if="gen.includes('All') && index === 0">
+                <span>{{ item }}</span>
+              </v-chip>
+              <span
+                v-if="gen.includes('All') && index === 1"
+                class="grey--text caption"
+              >(+{{ gen.length - 1 }} others)</span>
+            </template>
           </v-autocomplete>
         </v-flex>
         <v-spacer />
         <v-flex xs12 sm5>
-          <v-subheader class="pa-0">HEB</v-subheader>
           <v-autocomplete
             v-model="heb"
             :items="targetGroupValues.heb ? ['All'].concat(targetGroupValues.heb.values) : heb"
+            :label="targetGroupValues.heb ? targetGroupValues.heb.format_short : ''"
             :value="heb[0]"
-            class="black--text"
             :multiple="targetGroupValues.heb ? targetGroupValues.heb.multiple_selection : true"
             @change="handleTargetGroupOverview"
           >
+            <template v-slot:selection="{ item, index }">
+              <v-chip v-if="!heb.includes('All')">
+                <span>{{ item }}</span>
+              </v-chip>
+              <v-chip v-if="heb.includes('All') && index === 0">
+                <span>{{ item }}</span>
+              </v-chip>
+              <span
+                v-if="heb.includes('All') && index === 1"
+                class="grey--text caption"
+              >(+{{ heb.length - 1 }} others)</span>
+            </template>
           </v-autocomplete>
         </v-flex>
         <v-flex xs12 sm5>
-          <v-subheader class="pa-0">Education</v-subheader>
           <v-autocomplete
             v-model="edu"
             :items="targetGroupValues.edu ? ['All'].concat(targetGroupValues.edu.values) : edu"
+            :label="targetGroupValues.edu ? targetGroupValues.edu.format_short : ''"
             :value="edu[0]"
-            class="black--text"
             :multiple="targetGroupValues.edu ? targetGroupValues.edu.multiple_selection : true"
             @change="handleTargetGroupOverview"
           >
+            <template v-slot:selection="{ item, index }">
+              <v-chip v-if="!edu.includes('All')">
+                <span>{{ item }}</span>
+              </v-chip>
+              <v-chip v-if="edu.includes('All') && index === 0">
+                <span>{{ item }}</span>
+              </v-chip>
+              <span
+                v-if="edu.includes('All') && index === 1"
+                class="grey--text caption"
+              >(+{{ edu.length - 1 }} others)</span>
+            </template>
           </v-autocomplete>
         </v-flex>
         <v-spacer />
         <v-flex xs12 sm5>
           <v-layout row wrap justify-space-between align-center>
             <v-flex>
-              <v-subheader class="pa-0">HHIncome from _</v-subheader>
               <v-autocomplete
                 v-model="hhincomeMin"
                 :items="hhincomeMinList"
+                :label="`${targetGroupValues.hhincome ? targetGroupValues.hhincome.format_short : ''} from _`"
                 :value="hhincomeMin"
-                class="black--text"
                 :multiple="targetGroupValues.hhincome ? targetGroupValues.hhincome.multiple_selection : false"
                 @change="handleTargetGroupOverview"
               >
@@ -101,12 +142,11 @@
             </v-flex>
             <v-spacer />
             <v-flex>
-              <v-subheader class="pa-0">HHIncome _ to</v-subheader>
               <v-autocomplete
                 v-model="hhincomeMax"
                 :items="hhincomeMaxList"
+                :label="`${targetGroupValues.hhincome ? targetGroupValues.hhincome.format_short : ''} _ to`"
                 :value="hhincomeMax"
-                class="black--text"
                 :multiple="targetGroupValues.hhincome ? targetGroupValues.hhincome.multiple_selection : false"
                 @change="handleTargetGroupOverview"
               >
@@ -115,27 +155,37 @@
           </v-layout>
         </v-flex>
         <v-flex xs12 sm5>
-          <v-subheader class="pa-0">State</v-subheader>
           <v-autocomplete
             v-model="state"
             :items="targetGroupValues.state ? ['All'].concat(targetGroupValues.state.values) : state"
+            :label="targetGroupValues.state ? targetGroupValues.state.format_short : ''"
             :value="state[0]"
-            class="black--text"
             :multiple="targetGroupValues.state ? targetGroupValues.state.multiple_selection : true"
             @change="handleTargetGroupOverview"
           >
+            <template v-slot:selection="{ item, index }">
+              <v-chip v-if="!state.includes('All')">
+                <span>{{ item }}</span>
+              </v-chip>
+              <v-chip v-if="state.includes('All') && index === 0">
+                <span>{{ item }}</span>
+              </v-chip>
+              <span
+                v-if="state.includes('All') && index === 1"
+                class="grey--text caption"
+              >(+{{ state.length - 1 }} others)</span>
+            </template>
           </v-autocomplete>
         </v-flex>
         <v-spacer />
         <v-flex xs12 sm5>
           <v-layout row wrap justify-space-between align-center>
             <v-flex>
-              <v-subheader class="pa-0">PinHH MIN</v-subheader>
               <v-autocomplete
                 v-model="pinhhGroupMin"
                 :items="pinhhGroupMinList"
+                :label="`${targetGroupValues.pinhh_group ? targetGroupValues.pinhh_group.format_short : ''} MIN`"
                 :value="pinhhGroupMin"
-                class="black--text"
                 :multiple="targetGroupValues.pinhh_group ? targetGroupValues.pinhh_group.multiple_selection : false"
                 @change="handleTargetGroupOverview"
               >
@@ -143,12 +193,11 @@
             </v-flex>
             <v-spacer />
             <v-flex>
-              <v-subheader class="pa-0">PinHH MAX</v-subheader>
               <v-autocomplete
                 v-model="pinhhGroupMax"
                 :items="pinhhGroupMaxList"
+                :label="`${targetGroupValues.pinhh_group ? targetGroupValues.pinhh_group.format_short : ''} MAX`"
                 :value="pinhhGroupMax"
-                class="black--text"
                 :multiple="targetGroupValues.pinhh_group ? targetGroupValues.pinhh_group.multiple_selection : false"
                 @change="handleTargetGroupOverview"
               >
@@ -157,28 +206,50 @@
           </v-layout>
         </v-flex>
         <v-flex xs12 sm5>
-          <v-subheader class="pa-0">Marital status</v-subheader>
           <v-autocomplete
             v-model="fam"
             :items="targetGroupValues.fam ? ['All'].concat(targetGroupValues.fam.values) : fam"
+            :label="targetGroupValues.fam ? targetGroupValues.fam.format_short : ''"
             :value="fam[0]"
-            class="black--text"
             :multiple="targetGroupValues.fam ? targetGroupValues.fam.multiple_selection : true"
             @change="handleTargetGroupOverview"
           >
+            <template v-slot:selection="{ item, index }">
+              <v-chip v-if="!fam.includes('All')">
+                <span>{{ item }}</span>
+              </v-chip>
+              <v-chip v-if="fam.includes('All') && index === 0">
+                <span>{{ item }}</span>
+              </v-chip>
+              <span
+                v-if="fam.includes('All') && index === 1"
+                class="grey--text caption"
+              >(+{{ fam.length - 1 }} others)</span>
+            </template>
           </v-autocomplete>
         </v-flex>
         <v-spacer />
         <v-flex xs12 sm5>
-          <v-subheader class="pa-0">Child in the household</v-subheader>
           <v-autocomplete
             v-model="child"
             :items="targetGroupValues.child ? ['All'].concat(targetGroupValues.child.values) : child"
+            :label="targetGroupValues.child ? targetGroupValues.child.format_short : ''"
             :value="child[0]"
-            class="black--text"
             :multiple="targetGroupValues.child ? targetGroupValues.child.multiple_selection : true"
             @change="handleTargetGroupOverview"
           >
+            <template v-slot:selection="{ item, index }">
+              <v-chip v-if="!child.includes('All')">
+                <span>{{ item }}</span>
+              </v-chip>
+              <v-chip v-if="child.includes('All') && index === 0">
+                <span>{{ item }}</span>
+              </v-chip>
+              <span
+                v-if="child.includes('All') && index === 1"
+                class="grey--text caption"
+              >(+{{ child.length - 1 }} others)</span>
+            </template>
           </v-autocomplete>
         </v-flex>
       </v-layout>

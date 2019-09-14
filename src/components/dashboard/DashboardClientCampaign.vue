@@ -20,15 +20,27 @@
                 item-value="id"
                 multiple
               >
-                <template v-slot:selection="data">
+                <template v-slot:selection="{ item, index }">
                   <v-chip
-                    :selected="data.selected"
+                    v-if="!selectedClientIds.includes('All')"
                     close
                     class="chip--select-multi"
-                    @input="removeClient(data.item)"
+                    @input="removeClient(item)"
                   >
-                    {{ data.item.name }}
+                    <span>{{ item.name }}</span>
                   </v-chip>
+                  <v-chip
+                    v-if="selectedClientIds.includes('All') && index === 0"
+                    close
+                    class="chip--select-multi"
+                    @input="removeClient(item)"
+                  >
+                    <span>{{ item.name }}</span>
+                  </v-chip>
+                  <span
+                    v-if="selectedClientIds.includes('All') && index === 1"
+                    class="grey--text caption"
+                  >(+{{ selectedClientIds.length - 1 }} others)</span>
                 </template>
               </v-autocomplete>
               <v-layout row wrap justify-space-between align-center>
@@ -102,15 +114,27 @@
                 item-value="id"
                 multiple
               >
-                <template v-slot:selection="data">
+                <template v-slot:selection="{ item, index }">
                   <v-chip
-                    :selected="data.selected"
+                    v-if="!selectedCampaignIds.includes('All')"
                     close
                     class="chip--select-multi"
-                    @input="removeCampaign(data.item)"
+                    @input="removeCampaign(item)"
                   >
-                    {{ data.item.name }}
+                    <span>{{ item.name }}</span>
                   </v-chip>
+                  <v-chip
+                    v-if="selectedCampaignIds.includes('All') && index === 0"
+                    close
+                    class="chip--select-multi"
+                    @input="removeCampaign(item)"
+                  >
+                    <span>{{ item.name }}</span>
+                  </v-chip>
+                  <span
+                    v-if="selectedCampaignIds.includes('All') && index === 1"
+                    class="grey--text caption"
+                  >(+{{ selectedCampaignIds.length - 1 }} others)</span>
                 </template>
               </v-autocomplete>
             </v-flex>
