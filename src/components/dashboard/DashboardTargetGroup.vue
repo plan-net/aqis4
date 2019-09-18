@@ -43,10 +43,20 @@
             @change="handleTargetGroupOverview"
           >
             <template v-slot:selection="{ item, index }">
-              <v-chip v-if="!hhf.includes('All')">
+              <v-chip
+                v-if="!hhf.includes('All')"
+                close
+                class="chip--select-multi"
+                @input="removeFilter(item, hhf)"
+              >
                 <span>{{ item }}</span>
               </v-chip>
-              <v-chip v-if="hhf.includes('All') && index === 0">
+              <v-chip
+                v-if="hhf.includes('All') && index === 0"
+                close
+                class="chip--select-multi"
+                @input="hhf = []"
+              >
                 <span>{{ item }}</span>
               </v-chip>
               <span
@@ -66,10 +76,20 @@
             @change="handleTargetGroupOverview"
           >
             <template v-slot:selection="{ item, index }">
-              <v-chip v-if="!gen.includes('All')">
+              <v-chip
+                v-if="!gen.includes('All')"
+                close
+                class="chip--select-multi"
+                @input="removeFilter(item, gen)"
+              >
                 <span>{{ item }}</span>
               </v-chip>
-              <v-chip v-if="gen.includes('All') && index === 0">
+              <v-chip
+                v-if="gen.includes('All') && index === 0"
+                close
+                class="chip--select-multi"
+                @input="gen = []"
+              >
                 <span>{{ item }}</span>
               </v-chip>
               <span
@@ -90,10 +110,20 @@
             @change="handleTargetGroupOverview"
           >
             <template v-slot:selection="{ item, index }">
-              <v-chip v-if="!heb.includes('All')">
+              <v-chip
+                v-if="!heb.includes('All')"
+                close
+                class="chip--select-multi"
+                @input="removeFilter(item, heb)"
+              >
                 <span>{{ item }}</span>
               </v-chip>
-              <v-chip v-if="heb.includes('All') && index === 0">
+              <v-chip
+                v-if="heb.includes('All') && index === 0"
+                close
+                class="chip--select-multi"
+                @input="heb = []"
+              >
                 <span>{{ item }}</span>
               </v-chip>
               <span
@@ -113,10 +143,20 @@
             @change="handleTargetGroupOverview"
           >
             <template v-slot:selection="{ item, index }">
-              <v-chip v-if="!edu.includes('All')">
+              <v-chip
+                v-if="!edu.includes('All')"
+                close
+                class="chip--select-multi"
+                @input="removeFilter(item, edu)"
+              >
                 <span>{{ item }}</span>
               </v-chip>
-              <v-chip v-if="edu.includes('All') && index === 0">
+              <v-chip
+                v-if="edu.includes('All') && index === 0"
+                close
+                class="chip--select-multi"
+                @input="edu = []"
+              >
                 <span>{{ item }}</span>
               </v-chip>
               <span
@@ -164,10 +204,20 @@
             @change="handleTargetGroupOverview"
           >
             <template v-slot:selection="{ item, index }">
-              <v-chip v-if="!state.includes('All')">
+              <v-chip
+                v-if="!state.includes('All')"
+                close
+                class="chip--select-multi"
+                @input="removeFilter(item, state)"
+              >
                 <span>{{ item }}</span>
               </v-chip>
-              <v-chip v-if="state.includes('All') && index === 0">
+              <v-chip
+                v-if="state.includes('All') && index === 0"
+                close
+                class="chip--select-multi"
+                @input="state = []"
+              >
                 <span>{{ item }}</span>
               </v-chip>
               <span
@@ -215,10 +265,20 @@
             @change="handleTargetGroupOverview"
           >
             <template v-slot:selection="{ item, index }">
-              <v-chip v-if="!fam.includes('All')">
+              <v-chip
+                v-if="!fam.includes('All')"
+                close
+                class="chip--select-multi"
+                @input="removeFilter(item, fam)"
+              >
                 <span>{{ item }}</span>
               </v-chip>
-              <v-chip v-if="fam.includes('All') && index === 0">
+              <v-chip
+                v-if="fam.includes('All') && index === 0"
+                close
+                class="chip--select-multi"
+                @input="fam = []"
+              >
                 <span>{{ item }}</span>
               </v-chip>
               <span
@@ -239,10 +299,20 @@
             @change="handleTargetGroupOverview"
           >
             <template v-slot:selection="{ item, index }">
-              <v-chip v-if="!child.includes('All')">
+              <v-chip
+                v-if="!child.includes('All')"
+                close
+                class="chip--select-multi"
+                @input="removeFilter(item, child)"
+              >
                 <span>{{ item }}</span>
               </v-chip>
-              <v-chip v-if="child.includes('All') && index === 0">
+              <v-chip
+                v-if="child.includes('All') && index === 0"
+                close
+                class="chip--select-multi"
+                @input="child = []"
+              >
                 <span>{{ item }}</span>
               </v-chip>
               <span
@@ -419,10 +489,39 @@ export default {
     }
   },
   methods: {
+    removeFilter (item, array) {
+      if (item === 'All') {
+        array = []
+      } else {
+        const index = array.indexOf(item)
+        if (index >= 0) array.splice(index, 1)
+      }
+    },
     handleNextClick () {
       this.$store.dispatch('SOCKET_ONSEND', {
         method: 'subscribeCampaignResult',
-        targetGroupIds: [this.selectedCampaigns],
+        campaignIds: this.selectedCampaigns,
+        selections: {
+          _age: {
+            min: this.ageMin,
+            max: this.ageMax
+          },
+          gen: this.gen,
+          edu: this.edu,
+          state: this.state,
+          fam: this.fam,
+          hhf: this.hhf,
+          heb: this.hef,
+          hhincome: {
+            min: this.hhincomeMin,
+            max: this.hhincomeMax
+          },
+          pinhh_group: {
+            min: this.pinhhGroupMin,
+            max: this.pinhhGroupMax
+          },
+          child: this.child
+        },
         current_page: 1,
         per_page: 10,
         sort: 1,
