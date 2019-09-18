@@ -105,7 +105,7 @@
             v-model="heb"
             :items="targetGroupValues.heb ? ['All'].concat(targetGroupValues.heb.values) : heb"
             :label="targetGroupValues.heb ? targetGroupValues.heb.format_short : ''"
-            :value="heb[0]"
+            :value="heb"
             :multiple="targetGroupValues.heb ? targetGroupValues.heb.multiple_selection : true"
             @change="handleTargetGroupOverview"
           >
@@ -399,25 +399,25 @@ export default {
   },
   watch: {
     targetGroupValues (value) {
-      this.ageMin = value._age.default.min
-      this.ageMax = value._age.default.max
-      this.ageMinList = value._age.values
-      this.ageMaxList = value._age.values
-      this.child = value.child.default
-      this.edu = value.edu.default
-      this.fam = value.fam.default
-      this.gen = value.gen.default
-      this.heb = value.heb.default
-      this.hhf = value.hhf.default
-      this.hhincomeMin = value.hhincome.default.min
-      this.hhincomeMax = value.hhincome.default.max
-      this.hhincomeMinList = value.hhincome.values
-      this.hhincomeMaxList = value.hhincome.values
-      this.pinhhGroupMin = value.pinhh_group.default.min
-      this.pinhhGroupMax = value.pinhh_group.default.max
-      this.pinhhGroupMinList = value.pinhh_group.values
-      this.pinhhGroupMaxList = value.pinhh_group.values
-      this.state = value.state.default
+      this.ageMin = this.ageMin || value._age.default.min
+      this.ageMax = this.ageMax || value._age.default.max
+      this.ageMinList = this.ageMax ? value._age.values.slice(0, value._age.values.indexOf(this.ageMax) + 1) : value._age.values
+      this.ageMaxList = this.ageMin ? value._age.values.slice(value._age.values.indexOf(this.ageMin)) : value._age.values
+      this.child = this.child.length ? this.child : value.child.default
+      this.edu = this.edu.length ? this.edu : value.edu.default
+      this.fam = this.fam.length ? this.fam : value.fam.default
+      this.gen = this.gen.length ? this.gen : value.gen.default
+      this.heb = this.heb.length ? this.heb : value.heb.default
+      this.hhf = this.hhf.length ? this.hhf : value.hhf.default
+      this.hhincomeMin = this.hhincomeMin || value.hhincome.default.min
+      this.hhincomeMax = this.hhincomeMax || value.hhincome.default.max
+      this.hhincomeMinList = this.hhincomeMax ? value.hhincome.values.slice(0, value.hhincome.values.indexOf(this.hhincomeMax) + 1) : value.hhincome.values
+      this.hhincomeMaxList = this.hhincomeMin ? value.hhincome.values.slice(value.hhincome.values.indexOf(this.hhincomeMin)) : value.hhincome.values
+      this.pinhhGroupMin = this.pinhhGroupMin || value.pinhh_group.default.min
+      this.pinhhGroupMax = this.pinhhGroupMax || value.pinhh_group.default.max
+      this.pinhhGroupMinList = this.pinhhGroupMax ? value.pinhh_group.values.slice(0, value.pinhh_group.values.indexOf(this.pinhhGroupMax) + 1) : value.pinhh_group.values
+      this.pinhhGroupMaxList = this.pinhhGroupMin ? value.pinhh_group.values.slice(value.pinhh_group.values.indexOf(this.pinhhGroupMin)) : value.pinhh_group.values
+      this.state = this.state.length ? this.state : value.state.default
       this.handleTargetGroupOverview()
     },
     ageMin (value) {
